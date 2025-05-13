@@ -1,0 +1,66 @@
+<p-dialog
+  #ProcedureCreateDialog
+  [(visible)]="display"
+  (onHide)="onCloseDialog()"
+  [maximizable]="false"
+  [modal]="true"
+  [closable]="true"
+  styleClass="chatbot-dialog"
+  [contentStyle]="!ProcedureCreateDialog.maximized ? { 'height': '90vh' } : {}"
+  [resizable]="true"
+  data-tt-tour="ProcedureCreate"
+>
+  <ng-template pTemplate="header">
+    <div class="p-dialog-title" data-tt-tour="ProcedureCreate-Header">
+      AI Chat
+    </div>
+  </ng-template>
+
+  <div class="chatbot-section">
+    <div class="chatbot-body" #chatBody>
+      <!-- Messages -->
+      <div *ngFor="let message of messages"
+           class="chatbot-message"
+           [ngClass]="{
+             'bot-message': message.sender === 'bot' || message.sender === 'SYSTEM',
+             'user-message': message.sender === 'user'
+           }">
+
+        <!-- Dual-button hover message -->
+        <ng-container *ngIf="message.type === 'dual-button'; else normalMsg">
+          <div class="hoverable-button-group">
+            <span class="hover-label">Would you like to create the procedure in task train or give prompt to edit the procedure more ?</span>
+            <div class="hover-buttons">
+              <button (click)="handleButtonPress('Create Procedure')">Create Procedure</button>
+              <button (click)="handleButtonPress('Edit Procedure')">Edit Procedure</button>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- Normal single button or text -->
+        <ng-template #normalMsg>
+          <ng-container *ngIf="message.type === 'button'; else textMsg">
+            <button class="custom-action-btn" (click)="handleButtonPress(message.text)">
+              {{ message.text }}
+            </button>
+          </ng-container>
+          <ng-template #textMsg>
+            <span [innerHTML]="message.text"></span>
+          </ng-template>
+        </ng-template>
+      </div>
+
+      <!-- Typing indicator -->
+      <div *ngIf="isBotTyping" class="bot-typing-indicator">
+        <div class="train"></div>
+        <div class="track"></div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="chatbot-input">
+      <input [(ngModel)]="chatInput" placeholder="Type your message..." (keyup.enter)="sendMessage()" />
+      <button (click)="sendMessage()">Send</button>
+    </div>
+  </div>
+</p-dialog>

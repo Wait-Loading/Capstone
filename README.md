@@ -12,15 +12,7 @@ With this feature, users can:
 - Launch **"AI Generate Procedure"** from the procedure creation UI.
 - Interact with an AI-powered chat interface.
 - Answer dynamic follow-up questions.
-- Receive a fully generated procedure that includes:
-  - **What**
-  - **Why**
-  - **Who**
-  - **When**
-  - **Where**
-  - **With What**
-  - **Steps**
-  - Related procedures, safety notes, tools, and roles
+- Receive a fully generated procedure 
 
 This accelerates SOP creation, ensures format compliance, and reduces manual effort.
 
